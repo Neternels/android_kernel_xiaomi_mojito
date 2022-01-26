@@ -372,11 +372,11 @@ gen_zip() {
 
 	if [ "$PTTG" = 1 ]
  	then
-	    tg_post_build "$ZIP_FINAL.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+	    tg_post_build "$ZIP_FINAL".zip "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 	    if [ $MODULES = "1" ]
 	    then
 		cdir ../Mod
-		tg_post_build "$MOD_NAME.zip" "Flash this in magisk for loadable kernel modules"
+		tg_post_build "$MOD_NAME".zip "Flash this in magisk for loadable kernel modules"
 	    fi
 	fi
 	cd ..
