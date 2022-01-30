@@ -1627,7 +1627,7 @@ CONFIG_EEPROM_93CX6=y
 #
 # FingerprintCard fingerprint driver
 #
-# CONFIG_FPR_FPC is not set
+CONFIG_FPR_FPC=y
 # CONFIG_ANT_CHECK is not set
 # CONFIG_ANT_CHECK_DIV is not set
 
