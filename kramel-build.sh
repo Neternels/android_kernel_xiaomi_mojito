@@ -50,7 +50,7 @@ BASEDIR="$(basename "$KERNEL_DIR")"
 ZIPNAME="NetErnels"
 
 # Version number of kernel
-VERSION="${version}"
+VERSION=$version
 
 # Build Author
 # Take care, it should be a universal and most probably, case-sensitive
@@ -344,18 +344,18 @@ gen_zip() {
 		mv "$KERNEL_DIR"/out/arch/arm64/boot/dtb.img AnyKernel3/dtb.img
 	fi
 	cdir AnyKernel3
-	zip -r "$ZIPNAME-$DEVICE-${VERSION}" . -x ".git*" -x "README.md" -x "*.zip"
+	zip -r $ZIPNAME-$DEVICE-$VERSION . -x ".git*" -x "README.md" -x "*.zip"
 	if [ $MODULES = "1" ]
 	then
 	    cdir ../Mod
 	    rm -rf system/lib/modules/placeholder
-	    zip -r "$ZIPNAME-$DEVICE-modules-${VERSION}" . -x ".git*" -x "LICENSE.md" -x "*.zip"
-	    MOD_NAME="$ZIPNAME-$DEVICE-modules-${VERSION}"
+	    zip -r $ZIPNAME-$DEVICE-modules-$VERSION . -x ".git*" -x "LICENSE.md" -x "*.zip"
+	    MOD_NAME="$ZIPNAME-$DEVICE-modules-$VERSION"
 	    cdir ../AnyKernel3
 	fi
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DEVICE-${VERSION}"
+	ZIP_FINAL="$ZIPNAME-$DEVICE-$VERSION"
 
 	if [ $SIGN = 1 ]
 	then
@@ -365,18 +365,18 @@ gen_zip() {
  			msg "|| Signing Zip ||"
 			tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
  		fi
-		curl -sLo zipsigner-3.0.jar https://raw.githubusercontent.com/Mayankgaj/zipsigner-3.0/main/zipsigner.jar
+		curl -sLo zipsigner-3.0.jar https://raw.githubusercontent.com/baalajimaestro/AnyKernel2/master/zipsigner-3.0.jar
 		java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
 		ZIP_FINAL="$ZIP_FINAL-signed"
 	fi
 
 	if [ "$PTTG" = 1 ]
  	then
-	    tg_post_build "$ZIP_FINAL".zip "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+	    tg_post_build "$ZIP_FINAL.zip" "Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 	    if [ $MODULES = "1" ]
 	    then
 		cdir ../Mod
-		tg_post_build "$MOD_NAME".zip "Flash this in magisk for loadable kernel modules"
+		tg_post_build "$MOD_NAME.zip" "Flash this in magisk for loadable kernel modules"
 	    fi
 	fi
 	cd ..
